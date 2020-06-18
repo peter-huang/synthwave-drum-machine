@@ -44,10 +44,6 @@ body {
   border: none;
 }
 
-div[class*="col-"] {
-  border: 5px red solid;
-}
-
 #drum-machine {
   max-width: 750px;
   min-width: 300px;
