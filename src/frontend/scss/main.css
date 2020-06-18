@@ -1,0 +1,263 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: lightgrey;
+  font-family: Audiowide, "Audiowide", cursive, "Arial";
+  -webkit-background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(#2B213A), color-stop(#8D1EFF), to(#F222FE));
+  -webkit-background: linear-gradient(#000000, #2B213A, #8D1EFF, #F222FE);
+  -moz-background: linear-gradient(#000000, #2B213A, #8D1EFF, #F222FE);
+  -ms-background: linear-gradient(#000000, #2B213A, #8D1EFF, #F222FE);
+  -o-background: linear-gradient(#000000, #2B213A, #8D1EFF, #F222FE);
+  background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(#2B213A), color-stop(#8D1EFF), to(#F222FE));
+  background: linear-gradient(#000000, #2B213A, #8D1EFF, #F222FE);
+  -webkit-background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.75)), color-stop(rgba(43, 33, 58,0.75)), color-stop(rgba(141,30,255,0.75)), to(rgba(242,34,254,1))), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  -webkit-background-image: linear-gradient(rgba(0,0,0,0.75), rgba(43, 33, 58,0.75), rgba(141,30,255,0.75), rgba(242,34,254,1)), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  -moz-background-image: linear-gradient(rgba(0,0,0,0.75), rgba(43, 33, 58,0.75), rgba(141,30,255,0.75), rgba(242,34,254,1)), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  -ms-background-image: linear-gradient(rgba(0,0,0,0.75), rgba(43, 33, 58,0.75), rgba(141,30,255,0.75), rgba(242,34,254,1)), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  -o-background-image: linear-gradient(rgba(0,0,0,0.75), rgba(43, 33, 58,0.75), rgba(141,30,255,0.75), rgba(242,34,254,1)), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.75)), color-stop(rgba(43, 33, 58,0.75)), color-stop(rgba(141,30,255,0.75)), to(rgba(242,34,254,1))), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  background-image: linear-gradient(rgba(0,0,0,0.75), rgba(43, 33, 58,0.75), rgba(141,30,255,0.75), rgba(242,34,254,1)), url('https://wallpaperplay.com/walls/full/d/0/0/126454.jpg') ;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+@-webkit-keyframes glow {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.125;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.125;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+
+#drum-machine {
+  max-width: 750px;
+  min-width: 300px;
+  min-height: 250px;
+  background-color: #2b213a;
+  border: 5px #211511 solid;
+  border-radius: 0.25em;
+  padding: 0.75em;
+  border: 5px blue solid;
+}
+
+#drum-machine #display-view #display {
+  width: 100%;
+  height: 100%;
+  background-color: #bccd96;
+  border-radius: 0.25em;
+  border: 5px #211511 solid;
+  color: black;
+  font-size: 1.25em;
+  padding: 0.25em;
+  word-wrap: break-word;
+}
+
+#drum-machine #buttons-view {
+  border: 0px red solid;
+}
+
+#drum-machine #buttons-view div {
+  color: white;
+}
+
+#drum-machine #buttons-view #power-status-on, #drum-machine #buttons-view #power-status-off {
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  margin: 0.5em 1em;
+  border-radius: 1em;
+  opacity: 1;
+  position: relative;
+}
+
+#drum-machine #buttons-view #power-status-on {
+  background-color: #cefd49;
+  border: 0px #a4de02 solid;
+  -webkit-box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
+  -ms-box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
+  -o-box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
+  box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
+}
+
+#drum-machine #buttons-view #power-status-on:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  background-color: #cefd49;
+  border: 0px #a4de02 solid;
+  border-radius: 1em;
+  opacity: 1;
+  -webkit-animation: glow 2s ease-in-out infinite;
+  animation: glow 2s ease-in-out infinite;
+  -webkit-box-shadow: 0 0 0.075em 0.075em #A4DE02, 0 0 0.15em 0.15em #4C9A2A, 0 0 0.4em 0.4em #1E5631;
+  -ms-box-shadow: 0 0 0.075em 0.075em #A4DE02, 0 0 0.15em 0.15em #4C9A2A, 0 0 0.4em 0.4em #1E5631;
+  -o-box-shadow: 0 0 0.075em 0.075em #A4DE02, 0 0 0.15em 0.15em #4C9A2A, 0 0 0.4em 0.4em #1E5631;
+  box-shadow: 0 0 0.075em 0.075em #A4DE02, 0 0 0.15em 0.15em #4C9A2A, 0 0 0.4em 0.4em #1E5631;
+  content: "";
+}
+
+#drum-machine #buttons-view #power-status-off {
+  background-color: #ff3333;
+  border: 0px #e32914 solid;
+  -webkit-box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
+  -ms-box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
+  -o-box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
+  box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
+}
+
+#drum-machine #buttons-view #power-status-off:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  background-color: #ff3333;
+  border: 0px #e32914 solid;
+  border-radius: 1em;
+  opacity: 1;
+  -webkit-animation: glow 2s ease-in-out infinite;
+  animation: glow 2s ease-in-out infinite;
+  -webkit-box-shadow: 0 0 0.075em 0.075em #f94609, 0 0 0.15em 0.15em #fb0101, 0 0 0.4em 0.4em #a5150d;
+  -ms-box-shadow: 0 0 0.075em 0.075em #f94609, 0 0 0.15em 0.15em #fb0101, 0 0 0.4em 0.4em #a5150d;
+  -o-box-shadow: 0 0 0.075em 0.075em #f94609, 0 0 0.15em 0.15em #fb0101, 0 0 0.4em 0.4em #a5150d;
+  box-shadow: 0 0 0.075em 0.075em #f94609, 0 0 0.15em 0.15em #fb0101, 0 0 0.4em 0.4em #a5150d;
+  content: "";
+}
+
+#drum-machine #buttons-view #power-btn {
+  display: inline-block;
+  padding: 0.5em;
+  border-radius: 2em;
+  color: white;
+  background-color: #211511;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
+  -ms-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
+  -o-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.25);
+}
+
+#drum-machine #buttons-view #power-btn:active, #drum-machine #buttons-view #power-btn:focus {
+  outline: none;
+}
+
+#drum-machine #controls-view #controls {
+  background-color: #8d1eff;
+  border-radius: 0.75em;
+  border: 5px #211511 solid;
+}
+
+#drum-machine #controls-view .drum-pad {
+  color: black;
+  border-radius: 0.25em;
+  max-width: 100%;
+  min-width: 50px;
+  min-height: 50px;
+  border: 2px black solid;
+  margin: 1em 0em;
+  -webkit-box-shadow: 2px 4px 5px 2px rgba(0,0,0,0.75);
+  -ms-box-shadow: 2px 4px 5px 2px rgba(0,0,0,0.75);
+  -o-box-shadow: 2px 4px 5px 2px rgba(0,0,0,0.75);
+  box-shadow: 2px 4px 5px 2px rgba(0,0,0,0.75);
+}
+
+#drum-machine #controls-view .drum-pad:focus {
+  outline: none;
+}
+
+#drum-machine #controls-view .drum-pad:active {
+  color: white;
+  background-color: #301924;
+  border: 2px white solid;
+}
+
+#drum-machine #controls-mod-view {
+  background-color: #8d1eff;
+  border-radius: 0.75em;
+  border: 5px #211511 solid;
+}
+
+#drum-machine #controls-mod-view .controls-mod {
+  padding: 0.5em 1em;
+}
+
+#drum-machine #controls-mod-view .controls-mod * {
+  color: white;
+}
+
+#drum-machine #controls-mod-view #bank * {
+  color: white;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls button {
+  border: 1px black solid;
+  min-height: 1em;
+  min-width: 2em;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.75);
+  -ms-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.75);
+  -o-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.75);
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls button:active, #drum-machine #controls-mod-view #bank #bank-controls button:focus {
+  outline: none;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank1 {
+  background-color: red;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank1:active {
+  background-color: #ff4d4d;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank2 {
+  background-color: green;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank2:active {
+  background-color: #00cd00;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank3 {
+  background-color: blue;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank3:active {
+  background-color: #4d4dff;
+}
+
+#drum-machine #controls-mod-view input[type="range"][orient="vertical"] {
+  -webkit-writing-mode: bt-lr;
+      -ms-writing-mode: bt-lr;
+          writing-mode: bt-lr;
+  /* IE */
+  -webkit-appearance: slider-vertical;
+  /* WebKit */
+  width: 8px;
+  height: 100%;
+  padding: 0 5px;
+}
+/*# sourceMappingURL=main.css.map */
