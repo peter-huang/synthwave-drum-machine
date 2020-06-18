@@ -22,6 +22,9 @@ class App extends React.Component {
       Z: false,
       X: false,
       C: false,
+      vol: 50,
+      treb: 50,
+      bass: 50,
 
       audioFiles: [],
     };
@@ -193,42 +196,39 @@ class App extends React.Component {
                     <div id="controls-mod-view" class="container mt-2">
                       <div class="row h-100 align-items-center">
                         <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 controls-mod d-flex flex-column align-items-center">
-                          <div class="text-center">50</div>
+                          <div class="text-center">{this.state.vol}</div>
                           <div class="text-center">
                             <input
                               type="range"
                               min="0"
                               max="100"
                               orient="vertical"
-                              value="50"
                             />
                           </div>
                           <div class="text-center">VOL</div>
                         </div>
 
                         <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 controls-mod d-flex flex-column align-items-center">
-                          <div class="text-center">50</div>
+                          <div class="text-center">{this.state.treb}</div>
                           <div class="text-center">
                             <input
                               type="range"
                               min="0"
                               max="100"
                               orient="vertical"
-                              value="50"
                             />
                           </div>
                           <div class="text-center">TRB</div>
                         </div>
 
                         <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 controls-mod d-flex flex-column align-items-center">
-                          <div class="text-center">50</div>
+                          <div class="text-center">{this.state.bass}</div>
                           <div class="text-center">
                             <input
                               type="range"
                               min="0"
                               max="100"
                               orient="vertical"
-                              value="50"
                             />
                           </div>
                           <div class="text-center">BAS</div>
