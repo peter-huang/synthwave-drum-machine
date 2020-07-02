@@ -223,51 +223,37 @@ body {
     }
 
     .drum-pad {
-      /*
       color: black;
+      background-color: white;
       border-radius: 0.25em;
       max-width: 100%;
       min-width: 50px;
       min-height: 50px;
       border: 2px black solid;
-      margin: 1em 0em;*/
+      margin: 1em 0em;
       @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
 
-      @include prefix("animation-iteration-count", "1");
-      @include prefix("animation-fill-mode", "forwards");
-      @include prefix("animation-name", "drum-pad-animation-rev");
-      @include prefix("animation-timing-function", "linear");
-      @include prefix("animation-duration", "0.0625s");
-      //@include prefix("animation-direction", "alternate");
-      /*
       &:focus {
         outline: none;
       }
-      
-      &:active {
-        color: white;
-        background-color: #301924;
-        border: 2px white solid;
-      }*/
     }
 
     .drum-pad-active {
-      /*
-      color: white;
-      background-color: #301924;
-      border: 2px white solid;
-      border-radius: 0.25em;
-      max-width: 100%;
-      min-width: 50px;
-      min-height: 50px;
-      margin: 1em 0em;*/
       @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
       @include prefix("animation-iteration-count", "1");
       @include prefix("animation-fill-mode", "forwards");
-      @include prefix("animation-name", "drum-pad-animation-rev");
+      @include prefix("animation-name", "drum-pad-animation-active");
       @include prefix("animation-timing-function", "linear");
-      @include prefix("animation-duration", "0.0625s");
-      // @include prefix("animation-direction", "alternate");
+      @include prefix("animation-duration", "0.125s");
+    }
+
+    .drum-pad-inactive {
+      @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
+      @include prefix("animation-iteration-count", "1");
+      @include prefix("animation-fill-mode", "forwards");
+      @include prefix("animation-name", "drum-pad-animation-inactive");
+      @include prefix("animation-timing-function", "linear");
+      @include prefix("animation-duration", "0.125s");
     }
   }
 
@@ -331,60 +317,39 @@ body {
     }
   }
 }
-@include keyframes("drum-pad-animation") {
+
+@include keyframes("drum-pad-animation-active") {
   0% {
     color: black;
-    border-radius: 0.25em;
-    max-width: 100%;
-    min-width: 50px;
-    min-height: 50px;
+    background-color: white;
     border: 2px black solid;
-    margin: 1em 0em;
-    @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
   }
-  100% {
+  50% {
     color: white;
     background-color: #301924;
     border: 2px white solid;
-    border-radius: 0.25em;
-    max-width: 100%;
-    min-width: 50px;
-    min-height: 50px;
-    margin: 1em 0em;
-    @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
+  }
+  100% {
+    color: black;
+    background-color: white;
+    border: 2px black solid;
   }
 }
 
-@include keyframes("drum-pad-animation-rev") {
+@include keyframes("drum-pad-animation-inactive") {
   0% {
+    color: black;
+    background-color: white;
+    border: 2px black solid;
+  }
+  50% {
     color: white;
     background-color: #301924;
     border: 2px white solid;
-    border-radius: 0.25em;
-    max-width: 100%;
-    min-width: 50px;
-    min-height: 50px;
-    margin: 1em 0em;
-    @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
-
-    &:focus,
-    &:hover {
-      outline: none;
-    }
   }
   100% {
     color: black;
-    border-radius: 0.25em;
-    max-width: 100%;
-    min-width: 50px;
-    min-height: 50px;
+    background-color: white;
     border: 2px black solid;
-    margin: 1em 0em;
-    @include prefix("box-shadow", "2px 4px 5px 2px rgba(0,0,0,0.75)");
-
-    &:focus,
-    &:hover {
-      outline: none;
-    }
   }
 }
