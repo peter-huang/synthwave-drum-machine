@@ -84,7 +84,7 @@ body {
   color: white;
 }
 
-#drum-machine #buttons-view #power-status-on, #drum-machine #buttons-view #power-status-off {
+#drum-machine #buttons-view .power-status-on-active, #drum-machine #buttons-view .power-status-on-inactive, #drum-machine #buttons-view .power-status-off-inactive, #drum-machine #buttons-view .power-status-off-active {
   display: inline-block;
   min-height: 1.5em;
   min-width: 1.5em;
@@ -94,7 +94,7 @@ body {
   position: relative;
 }
 
-#drum-machine #buttons-view #power-status-on {
+#drum-machine #buttons-view .power-status-on-active {
   background-color: #cefd49;
   border: 0px #a4de02 solid;
   -ms-box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
@@ -102,7 +102,7 @@ body {
   box-shadow: 0 0 0.0625em 0.0625em #A4DE02, 0 0 0.125em 0.125em #4C9A2A, 0 0 0.25em 0.25em #1E5631;
 }
 
-#drum-machine #buttons-view #power-status-on:after {
+#drum-machine #buttons-view .power-status-on-active:after {
   position: absolute;
   top: 0;
   left: 0;
@@ -120,7 +120,66 @@ body {
   content: "";
 }
 
-#drum-machine #buttons-view #power-status-off {
+#drum-machine #buttons-view .power-status-on-inactive {
+  background-color: #597901;
+  border: 0px #a4de02 solid;
+}
+
+#drum-machine #buttons-view .power-status-on-inactive:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  border-radius: 1em;
+  background: linear-gradient(white 5%, rgba(255, 255, 255, 0.75) 10%, rgba(255, 255, 255, 0.25) 25%, rgba(0, 0, 0, 0.5) 50%, black 75%);
+  content: "";
+}
+
+#drum-machine #buttons-view .power-status-on-inactive:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  background: linear-gradient(rgba(50, 139, 37, 0.75), rgba(27, 84, 3, 0.75));
+  border: 0px #a4de02 solid;
+  border-radius: 1em;
+  opacity: 1;
+  -ms-box-shadow: 0 0 0.0375em 0.0375em  blue, 0 0 0.0375em 0.0375em #338610, 0 0 0.1em 0.1em #000000;
+  -o-box-shadow: 0 0 0.0375em 0.0375em  blue, 0 0 0.0375em 0.0375em #338610, 0 0 0.1em 0.1em #000000;
+  box-shadow: 0 0 0.0375em 0.0375em  blue, 0 0 0.0375em 0.0375em #338610, 0 0 0.1em 0.1em #000000;
+  content: "";
+}
+
+#drum-machine #buttons-view .power-status-off-inactive {
+  background-color: #cc0000;
+  border: 0px #e32914 solid;
+  -ms-box-shadow: 0 0 0.00625em 0.00625em #f94609, 0 0 0.0125em 0.125em #fb0101, 0 0 0.025em 0.25em #a5150d;
+  -o-box-shadow: 0 0 0.00625em 0.00625em #f94609, 0 0 0.0125em 0.125em #fb0101, 0 0 0.025em 0.25em #a5150d;
+  box-shadow: 0 0 0.00625em 0.00625em #f94609, 0 0 0.0125em 0.125em #fb0101, 0 0 0.025em 0.25em #a5150d;
+}
+
+#drum-machine #buttons-view .power-status-off-inactive:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  background-color: #cc0000;
+  border: 0px #e32914 solid;
+  border-radius: 1em;
+  opacity: 1;
+  -ms-box-shadow: 0 0 0.0075em 0.0075em #f94609, 0 0 0.015em 0.015em #fb0101, 0 0 0.04em 0.04em #a5150d;
+  -o-box-shadow: 0 0 0.0075em 0.0075em #f94609, 0 0 0.015em 0.015em #fb0101, 0 0 0.04em 0.04em #a5150d;
+  box-shadow: 0 0 0.0075em 0.0075em #f94609, 0 0 0.015em 0.015em #fb0101, 0 0 0.04em 0.04em #a5150d;
+  content: "";
+}
+
+#drum-machine #buttons-view .power-status-off-active {
   background-color: #ff3333;
   border: 0px #e32914 solid;
   -ms-box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
@@ -128,7 +187,7 @@ body {
   box-shadow: 0 0 0.0625em 0.0625em #f94609, 0 0 0.125em 0.125em #fb0101, 0 0 0.25em 0.25em #a5150d;
 }
 
-#drum-machine #buttons-view #power-status-off:after {
+#drum-machine #buttons-view .power-status-off-active:after {
   position: absolute;
   top: 0;
   left: 0;
@@ -239,27 +298,72 @@ body {
 }
 
 #drum-machine #controls-mod-view #bank #bank-controls #bank1 {
-  background-color: red;
+  position: relative;
 }
 
-#drum-machine #controls-mod-view #bank #bank-controls #bank1:active {
-  background-color: #ff4d4d;
+#drum-machine #controls-mod-view #bank #bank-controls .bank1-active {
+  background-color: #ff0d0d;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls .bank1-active:after {
+  position: absolute;
+  top: 2.5%;
+  left: 2.5%;
+  width: 95%;
+  height: 95%;
+  content: "";
+  background-color: red;
+  border-radius: 0.125em;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls .bank1-inactive {
+  background-color: #990000;
 }
 
 #drum-machine #controls-mod-view #bank #bank-controls #bank2 {
-  background-color: green;
+  position: relative;
 }
 
-#drum-machine #controls-mod-view #bank #bank-controls #bank2:active {
+#drum-machine #controls-mod-view #bank #bank-controls .bank2-active {
   background-color: #00cd00;
 }
 
-#drum-machine #controls-mod-view #bank #bank-controls #bank3 {
-  background-color: blue;
+#drum-machine #controls-mod-view #bank #bank-controls .bank2-active:after {
+  position: absolute;
+  top: 2.5%;
+  left: 2.5%;
+  width: 95%;
+  height: 95%;
+  content: "";
+  background-color: #00cd00;
+  border-radius: 0.125em;
 }
 
-#drum-machine #controls-mod-view #bank #bank-controls #bank3:active {
-  background-color: #4d4dff;
+#drum-machine #controls-mod-view #bank #bank-controls .bank2-inactive {
+  background-color: green;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls #bank3 {
+  position: relative;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls .bank3-active {
+  background-color: #0d0dff;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls .bank3-active:after {
+  position: absolute;
+  top: 2.5%;
+  left: 2.5%;
+  width: 95%;
+  height: 95%;
+  content: "";
+  background-color: #1a1aff;
+  border-radius: 0.125em;
+}
+
+#drum-machine #controls-mod-view #bank #bank-controls .bank3-inactive {
+  background-color: navy;
 }
 
 #drum-machine #controls-mod-view input[type="range"][orient="vertical"] {

@@ -132,13 +132,16 @@ body {
       min-height: 1.5em;
       min-width: 1.5em;
       margin: 0.5em 1em;
-      //padding: 0em 2em;
       border-radius: 1em;
       opacity: 1;
       position: relative;
-      //border: 5px red solid !important;
     }
+
     #power-status-on {
+    }
+
+    // Power-on statuses
+    .power-status-on-active {
       @extend %power-status-shared;
       background-color: lighten(#a4de02, 20%);
       border: 0px #a4de02 solid;
@@ -168,7 +171,87 @@ body {
         content: "";
       }
     }
+
+    .power-status-on-inactive {
+      @extend %power-status-shared;
+      background-color: darken(#a4de02, 20%);
+      border: 0px #a4de02 solid;
+
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        min-height: 1.5em;
+        min-width: 1.5em;
+        border-radius: 1em;
+        background: linear-gradient(
+          rgba(255, 255, 255, 1) 5%,
+          rgba(255, 255, 255, 0.75) 10%,
+          rgba(255, 255, 255, 0.25) 25%,
+          rgba(0, 0, 0, 0.5) 50%,
+          rgba(0, 0, 0, 1) 75%
+        );
+        content: "";
+      }
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        min-height: 1.5em;
+        min-width: 1.5em;
+        background: linear-gradient(
+          rgba(50, 139, 37, 0.75),
+          rgba(27, 84, 3, 0.75)
+        );
+        border: 0px #a4de02 solid;
+        border-radius: 1em;
+        opacity: 1;
+
+        @include prefix(
+          "box-shadow",
+          "0 0 0.0375em 0.0375em  blue, 0 0 0.0375em 0.0375em #338610, 0 0 0.1em 0.1em #000000"
+        );
+
+        content: "";
+      }
+    }
     #power-status-off {
+    }
+
+    // Power-off statuses
+    .power-status-off-inactive {
+      @extend %power-status-shared;
+      background-color: darken(red, 10%);
+      border: 0px #e32914 solid;
+      @include prefix(
+        "box-shadow",
+        "0 0 0.00625em 0.00625em #f94609, 0 0 0.0125em 0.125em #fb0101, 0 0 0.025em 0.25em #a5150d"
+      );
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        min-height: 1.5em;
+        min-width: 1.5em;
+        background-color: darken(red, 10%);
+        border: 0px #e32914 solid;
+        border-radius: 1em;
+        opacity: 1;
+
+        @include prefix(
+          "box-shadow",
+          "0 0 0.0075em 0.0075em #f94609, 0 0 0.015em 0.015em #fb0101, 0 0 0.04em 0.04em #a5150d"
+        );
+        content: "";
+      }
+    }
+
+    .power-status-off-active {
       @extend %power-status-shared;
       background-color: lighten(red, 10%);
       border: 0px #e32914 solid;
@@ -287,23 +370,71 @@ body {
 
           @include prefix("box-shadow", "1px 1px 1px 1px rgba(0,0,0,0.75)");
         }
+
+        // Bank1 and effects
         #bank1 {
-          background-color: red;
-          &:active {
-            background-color: lighten(red, 15%);
+          position: relative;
+        }
+
+        .bank1-active {
+          background-color: lighten(red, 2.5%);
+          &:after {
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            width: 95%;
+            height: 95%;
+            content: "";
+            background-color: red;
+            border-radius: 0.125em;
           }
         }
+        .bank1-inactive {
+          background-color: darken(red, 20%);
+        }
+
+        // Bank2 and effects
         #bank2 {
-          background-color: green;
-          &:active {
+          position: relative;
+        }
+
+        .bank2-active {
+          background-color: lighten(green, 15%);
+          &:after {
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            width: 95%;
+            height: 95%;
+            content: "";
             background-color: lighten(green, 15%);
+            border-radius: 0.125em;
           }
         }
+        .bank2-inactive {
+          background-color: green;
+        }
+
+        // Bank3 and effects
         #bank3 {
-          background-color: blue;
-          &:active {
-            background-color: lighten(blue, 15%);
+          position: relative;
+        }
+
+        .bank3-active {
+          background-color: lighten(blue, 2.5%);
+          &:after {
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            width: 95%;
+            height: 95%;
+            content: "";
+            background-color: lighten(blue, 5%);
+            border-radius: 0.125em;
           }
+        }
+        .bank3-inactive {
+          background-color: darken(blue, 25%);
         }
       }
     }

@@ -13,33 +13,58 @@ const bank1Files = [
   "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Kick02.mp3",
 ];
 
-const MACHINE_STATE = {
+const bank2Files = [
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/1.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/2.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/3.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/4.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/5.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/6.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/7.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/8.mp3",
+  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/9.mp3",
+];
+
+const PWR_STATE = {
   OFFLINE: "OFFLINE",
   ONLINE: "ONLINE",
 };
+
+const BANK_STATE = {
+  BANK1: false,
+  BANK2: false,
+  BANK3: false,
+};
+
+const MACHINE_STATE = {
+  DEFAULT: {
+    statusMsg: PWR_STATE.OFFLINE,
+    pwrStatus: false,
+    bankStatus: BANK_STATE,
+    isOn: false,
+    btQ: false,
+    btW: false,
+    btE: false,
+    btA: false,
+    btS: false,
+    btD: false,
+    btZ: false,
+    btX: false,
+    btC: false,
+    vol: 50,
+    treb: 50,
+    bass: 50,
+  },
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      statusMsg: MACHINE_STATE.OFFLINE,
-      isOn: false,
-      btQ: false,
-      btW: false,
-      btE: false,
-      btA: false,
-      btS: false,
-      btD: false,
-      btZ: false,
-      btX: false,
-      btC: false,
-      vol: 50,
-      treb: 50,
-      bass: 50,
-    };
+    this.state = MACHINE_STATE.DEFAULT;
 
     this.togglePower = this.togglePower.bind(this);
-
+    this.toggleBank = this.toggleBank.bind(this);
     // audio methods
     this.playAudio = this.playAudio.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
@@ -52,7 +77,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // load audio files to html element
+    // Initial load bank1 audio files to html element
     let d = document.getElementsByClassName("clip");
     if (d.length === bank1Files.length) {
       for (let i = 0; i < d.length; i++) {
@@ -60,11 +85,35 @@ class App extends React.Component {
       }
     }
 
-    document.addEventListener("keyup", this.playAudio);
+    document.addEventListener("keydown", this.playAudio);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log(state.bankStatus);
+
+    let keys = Object.keys(state.bankStatus);
+
+    let d = document.getElementsByClassName("clip");
+
+    for (let i = 0; keys.length; i++) {
+      switch (keys[i]) {
+        case "bank1":
+          for (let i = 0; i < d.length; i++) {
+            d[i].src = bank1Files[i];
+          }
+          break;
+
+        case "bank2":
+          for (let i = 0; i < d.length; i++) {
+            d[i].src = bank2Files[i];
+          }
+          break;
+      }
+    }
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keyup", this.playAudio);
+    document.removeEventListener("keydown", this.playAudio);
   }
 
   // Update the screen with current playing sounds, status of machine
@@ -81,22 +130,87 @@ class App extends React.Component {
     });
   }
 
+  // Toggle on and off for drum machine
   togglePower() {
-    console.log(this.state.statusMsg);
     this.setState((state) => {
+      if (!state.pwrStatus) {
+        return {
+          statusMsg:
+            state.statusMsg === PWR_STATE.OFFLINE
+              ? PWR_STATE.ONLINE
+              : PWR_STATE.OFFLINE,
+          pwrStatus: !state.pwrStatus,
+
+          bankStatus: {
+            BANK1: true,
+            BANK2: false,
+            BANK3: false,
+          },
+        };
+      }
       return {
         statusMsg:
-          state.statusMsg === MACHINE_STATE.OFFLINE
-            ? MACHINE_STATE.ONLINE
-            : MACHINE_STATE.OFFLINE,
+          state.statusMsg === PWR_STATE.OFFLINE
+            ? PWR_STATE.ONLINE
+            : PWR_STATE.OFFLINE,
+        pwrStatus: !state.pwrStatus,
+
+        bankStatus: BANK_STATE,
       };
     });
   }
+
+  // Toggle sound bank kit
+  toggleBank(e) {
+    if (this.state.pwrStatus) {
+      switch (e.target.id) {
+        case "bank1":
+          this.setState((state) => {
+            return {
+              bankStatus: {
+                BANK1: !state.bankStatus.BANK1,
+                BANK2: false,
+                BANK3: false,
+              },
+              statusMsg: "Drum Kit 1",
+            };
+          });
+          break;
+
+        case "bank2":
+          this.setState((state) => {
+            return {
+              bankStatus: {
+                BANK1: false,
+                BANK2: !state.bankStatus.BANK2,
+                BANK3: false,
+              },
+              statusMsg: "Drum Kit 2",
+            };
+          });
+          break;
+
+        case "bank3":
+          this.setState((state) => {
+            return {
+              bankStatus: {
+                BANK1: false,
+                BANK2: false,
+                BANK3: !state.bankStatus.BANK3,
+              },
+            };
+          });
+          break;
+      }
+    }
+  }
+
   // Toggle audio files, plays initially, pause and replay from start on subsequent button events
   toggleAudio(audio) {
     try {
       //this.toggleVolume(audio, this.state.vol);
 
+      audio.currentTime = 0;
       let promise = audio.play();
 
       if (promise !== undefined) {
@@ -133,7 +247,7 @@ class App extends React.Component {
 
   playAudio(event) {
     try {
-      if (this.state.statusMsg === MACHINE_STATE.ONLINE) {
+      if (this.state.pwrStatus) {
         switch (event.type) {
           case "click":
             let e = document.getElementById(event.target.id).childNodes[0];
@@ -142,7 +256,7 @@ class App extends React.Component {
             this.updateScreen(e);
             break;
 
-          case "keyup":
+          case "keydown":
             let keyCode = String.fromCharCode(event.keyCode);
             let key;
             try {
@@ -230,8 +344,22 @@ class App extends React.Component {
                     </div>
 
                     <div class="d-flex align-items-center justify-content-end mt-2">
-                      <div id="power-status-on" class=""></div>
-                      <div id="power-status-off" class=""></div>
+                      <div
+                        id="power-status-on"
+                        className={
+                          this.state.pwrStatus
+                            ? "power-status-on-active"
+                            : "power-status-on-inactive"
+                        }
+                      ></div>
+                      <div
+                        id="power-status-off"
+                        className={
+                          !this.state.pwrStatus
+                            ? "power-status-off-active d-none"
+                            : "power-status-off-inactive d-none"
+                        }
+                      ></div>
                       <button id="power-btn" onClick={this.togglePower}>
                         <i class="fa fa-power-off fa-lg" aria-hidden="true"></i>
                       </button>
@@ -494,9 +622,33 @@ class App extends React.Component {
                                   id="bank-controls"
                                   class="d-flex justify-content-center"
                                 >
-                                  <button id="bank1"></button>
-                                  <button id="bank2"></button>
-                                  <button id="bank3"></button>
+                                  <button
+                                    id="bank1"
+                                    className={
+                                      this.state.bankStatus.BANK1
+                                        ? "bank1-active"
+                                        : "bank1-inactive"
+                                    }
+                                    onClick={this.toggleBank}
+                                  ></button>
+                                  <button
+                                    id="bank2"
+                                    className={
+                                      this.state.bankStatus.BANK2
+                                        ? "bank2-active"
+                                        : "bank2-inactive"
+                                    }
+                                    onClick={this.toggleBank}
+                                  ></button>
+                                  <button
+                                    id="bank3"
+                                    className={
+                                      this.state.bankStatus.BANK3
+                                        ? "bank3-active d-none"
+                                        : "bank3-inactive d-none"
+                                    }
+                                    onClick={this.toggleBank}
+                                  ></button>
                                 </div>
                                 <div>BANK</div>
                               </div>
