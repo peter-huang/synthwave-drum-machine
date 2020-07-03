@@ -147,6 +147,7 @@ class App extends React.Component {
           activeBank: state.banks.BANK1,
         };
       }
+
       return {
         statusMsg:
           state.statusMsg === PWR_STATE.OFFLINE
@@ -155,6 +156,7 @@ class App extends React.Component {
         pwrStatus: !state.pwrStatus,
 
         banks: SOUND_BANKS,
+        activeBank: state.banks.BANK1,
       };
     });
   }
