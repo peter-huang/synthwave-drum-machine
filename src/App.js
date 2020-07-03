@@ -1,46 +1,55 @@
 import React from "react";
 import logo from "./logo.svg";
 
-const bank1Files = [
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Perc_01.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Perc_02.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Perc_03.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Hi_Hat_02.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Hi_Hat_05.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Clap_02.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Snare_05.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Tom01.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank1/Kick02.mp3",
-];
-
-const bank2Files = [
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/1.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/2.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/3.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/4.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/5.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/6.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/7.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/8.mp3",
-  "http://www.peterhuang.net/projects/synthwave-drum-machine/bank2/9.mp3",
-];
-
 const PWR_STATE = {
   OFFLINE: "OFFLINE",
   ONLINE: "ONLINE",
 };
 
-const BANK_STATE = {
-  BANK1: false,
-  BANK2: false,
-  BANK3: false,
+const SOUND_BANKS = {
+  BANK1: {
+    name: "Drum Kit",
+    status: false,
+    source: [
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Perc_01.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Perc_02.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Perc_03.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Hi_Hat_02.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Hi_Hat_05.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Clap_02.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Snare_05.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Tom01.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank1/Kick02.mp3",
+    ],
+  },
+  BANK2: {
+    name: "Synth Wave Kit",
+    status: false,
+    source: [
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/C_Flute_Green.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Drums_13.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Drums_26.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Drums_65.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Dshp_Guitar_2.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Dshp_Organ_2.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Dshp_Syn_Bass_32.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Dshp_Synth_07.mp3",
+      "http://www.peterhuang.net/projects/synthwave-drum-machine/static/media/bank2/Perc_10.mp3",
+    ],
+  },
+  BANK3: {
+    name: "",
+    status: false,
+    source: [],
+  },
 };
 
 const MACHINE_STATE = {
   DEFAULT: {
     statusMsg: PWR_STATE.OFFLINE,
     pwrStatus: false,
-    bankStatus: BANK_STATE,
+    banks: SOUND_BANKS,
+    activeBank: SOUND_BANKS.BANK1.source,
     isOn: false,
     btQ: false,
     btW: false,
@@ -65,6 +74,7 @@ class App extends React.Component {
 
     this.togglePower = this.togglePower.bind(this);
     this.toggleBank = this.toggleBank.bind(this);
+
     // audio methods
     this.playAudio = this.playAudio.bind(this);
     this.toggleAudio = this.toggleAudio.bind(this);
@@ -77,39 +87,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // Initial load bank1 audio files to html element
-    let d = document.getElementsByClassName("clip");
-    if (d.length === bank1Files.length) {
-      for (let i = 0; i < d.length; i++) {
-        d[i].src = bank1Files[i];
-      }
-    }
-
     document.addEventListener("keydown", this.playAudio);
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    console.log(state.bankStatus);
-
-    let keys = Object.keys(state.bankStatus);
-
-    let d = document.getElementsByClassName("clip");
-
-    for (let i = 0; keys.length; i++) {
-      switch (keys[i]) {
-        case "bank1":
-          for (let i = 0; i < d.length; i++) {
-            d[i].src = bank1Files[i];
-          }
-          break;
-
-        case "bank2":
-          for (let i = 0; i < d.length; i++) {
-            d[i].src = bank2Files[i];
-          }
-          break;
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -141,11 +119,25 @@ class App extends React.Component {
               : PWR_STATE.OFFLINE,
           pwrStatus: !state.pwrStatus,
 
-          bankStatus: {
-            BANK1: true,
-            BANK2: false,
-            BANK3: false,
+          banks: {
+            BANK1: {
+              name: state.banks.BANK1.name,
+              status: true,
+              source: state.banks.BANK1.source,
+            },
+            BANK2: {
+              name: state.banks.BANK2.name,
+              status: false,
+              source: state.banks.BANK2.source,
+            },
+            BANK3: {
+              name: state.banks.BANK3.name,
+              status: false,
+              source: state.banks.BANK3.source,
+            },
           },
+
+          activeBank: state.banks.BANK1.source,
         };
       }
       return {
@@ -155,7 +147,7 @@ class App extends React.Component {
             : PWR_STATE.OFFLINE,
         pwrStatus: !state.pwrStatus,
 
-        bankStatus: BANK_STATE,
+        banks: SOUND_BANKS,
       };
     });
   }
@@ -167,12 +159,25 @@ class App extends React.Component {
         case "bank1":
           this.setState((state) => {
             return {
-              bankStatus: {
-                BANK1: !state.bankStatus.BANK1,
-                BANK2: false,
-                BANK3: false,
+              banks: {
+                BANK1: {
+                  name: state.banks.BANK1.name,
+                  status: !state.banks.BANK1.status,
+                  source: state.banks.BANK1.source,
+                },
+                BANK2: {
+                  name: state.banks.BANK2.name,
+                  status: false,
+                  source: state.banks.BANK2.source,
+                },
+                BANK3: {
+                  name: state.banks.BANK3.name,
+                  status: false,
+                  source: state.banks.BANK3.source,
+                },
               },
-              statusMsg: "Drum Kit 1",
+              statusMsg: state.banks.BANK1.name,
+              activeBank: state.banks.BANK1.source,
             };
           });
           break;
@@ -180,12 +185,25 @@ class App extends React.Component {
         case "bank2":
           this.setState((state) => {
             return {
-              bankStatus: {
-                BANK1: false,
-                BANK2: !state.bankStatus.BANK2,
-                BANK3: false,
+              banks: {
+                BANK1: {
+                  name: state.banks.BANK1.name,
+                  status: false,
+                  source: state.banks.BANK1.source,
+                },
+                BANK2: {
+                  name: state.banks.BANK2.name,
+                  status: !state.banks.BANK2.status,
+                  source: state.banks.BANK2.source,
+                },
+                BANK3: {
+                  name: state.banks.BANK3.name,
+                  status: false,
+                  source: state.banks.BANK3.source,
+                },
               },
-              statusMsg: "Drum Kit 2",
+              statusMsg: state.banks.BANK2.name,
+              activeBank: state.banks.BANK2.source,
             };
           });
           break;
@@ -193,11 +211,25 @@ class App extends React.Component {
         case "bank3":
           this.setState((state) => {
             return {
-              bankStatus: {
-                BANK1: false,
-                BANK2: false,
-                BANK3: !state.bankStatus.BANK3,
+              banks: {
+                BANK1: {
+                  name: state.banks.BANK1.name,
+                  status: false,
+                  source: state.banks.BANK1.source,
+                },
+                BANK2: {
+                  name: state.banks.BANK2.name,
+                  status: false,
+                  source: state.banks.BANK2.source,
+                },
+                BANK3: {
+                  name: state.banks.BANK3.name,
+                  status: !state.banks.BANK3.status,
+                  source: state.banks.BANK3.source,
+                },
               },
+              statusMsg: state.banks.BANK3.name,
+              activeBank: state.banks.BANK3.source,
             };
           });
           break;
@@ -211,6 +243,7 @@ class App extends React.Component {
       //this.toggleVolume(audio, this.state.vol);
 
       audio.currentTime = 0;
+      audio.volume = this.state.vol / 100;
       let promise = audio.play();
 
       if (promise !== undefined) {
@@ -400,7 +433,7 @@ class App extends React.Component {
                             <audio
                               id="Q"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[0]}
                               crossOrigin="anonymous"
                             ></audio>
                             Q
@@ -419,7 +452,7 @@ class App extends React.Component {
                             <audio
                               id="W"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[1]}
                               crossOrigin="anonymous"
                             ></audio>
                             W
@@ -438,7 +471,7 @@ class App extends React.Component {
                             <audio
                               id="E"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[2]}
                               crossOrigin="anonymous"
                             ></audio>
                             E
@@ -459,7 +492,7 @@ class App extends React.Component {
                             <audio
                               id="A"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[3]}
                               crossOrigin="anonymous"
                             ></audio>
                             A
@@ -478,7 +511,7 @@ class App extends React.Component {
                             <audio
                               id="S"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[4]}
                               crossOrigin="anonymous"
                             ></audio>
                             S
@@ -497,7 +530,7 @@ class App extends React.Component {
                             <audio
                               id="D"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[5]}
                               crossOrigin="anonymous"
                             ></audio>
                             D
@@ -519,7 +552,7 @@ class App extends React.Component {
                             <audio
                               id="Z"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[6]}
                               crossOrigin="anonymous"
                             ></audio>
                             Z
@@ -539,7 +572,7 @@ class App extends React.Component {
                             <audio
                               id="X"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[7]}
                               crossOrigin="anonymous"
                             ></audio>
                             X
@@ -558,7 +591,7 @@ class App extends React.Component {
                             <audio
                               id="C"
                               class="clip"
-                              src=""
+                              src={this.state.activeBank[8]}
                               crossOrigin="anonymous"
                             ></audio>
                             C
@@ -625,7 +658,7 @@ class App extends React.Component {
                                   <button
                                     id="bank1"
                                     className={
-                                      this.state.bankStatus.BANK1
+                                      this.state.banks.BANK1.status
                                         ? "bank1-active"
                                         : "bank1-inactive"
                                     }
@@ -634,7 +667,7 @@ class App extends React.Component {
                                   <button
                                     id="bank2"
                                     className={
-                                      this.state.bankStatus.BANK2
+                                      this.state.banks.BANK2.status
                                         ? "bank2-active"
                                         : "bank2-inactive"
                                     }
@@ -643,7 +676,7 @@ class App extends React.Component {
                                   <button
                                     id="bank3"
                                     className={
-                                      this.state.bankStatus.BANK3
+                                      this.state.banks.BANK3.status
                                         ? "bank3-active d-none"
                                         : "bank3-inactive d-none"
                                     }
