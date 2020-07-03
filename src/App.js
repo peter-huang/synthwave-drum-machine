@@ -49,7 +49,7 @@ const MACHINE_STATE = {
     statusMsg: PWR_STATE.OFFLINE,
     pwrStatus: false,
     banks: SOUND_BANKS,
-    activeBank: SOUND_BANKS.BANK1.source,
+    activeBank: SOUND_BANKS.BANK1,
     isOn: false,
     btQ: false,
     btW: false,
@@ -94,10 +94,14 @@ class App extends React.Component {
     document.removeEventListener("keydown", this.playAudio);
   }
 
-  // Update the screen with current playing sounds, status of machine
-  updateScreen(e) {
-    let name = "bt" + e.id;
-    let fileName = e.src.split("/").pop();
+  /*
+   * Update the screen with current playing sounds, status of machine
+   *
+   * @param audio - audio DOM object
+   */
+  updateScreen(audio) {
+    let name = "bt" + audio.id;
+    let fileName = audio.src.split("/").pop();
     fileName = fileName.substring(0, fileName.length - 4);
 
     this.setState((state) => {
@@ -108,7 +112,10 @@ class App extends React.Component {
     });
   }
 
-  // Toggle on and off for drum machine
+  /*
+   * Toggle on and off for drum machine
+   *
+   */
   togglePower() {
     this.setState((state) => {
       if (!state.pwrStatus) {
@@ -137,7 +144,7 @@ class App extends React.Component {
             },
           },
 
-          activeBank: state.banks.BANK1.source,
+          activeBank: state.banks.BANK1,
         };
       }
       return {
@@ -152,10 +159,14 @@ class App extends React.Component {
     });
   }
 
-  // Toggle sound bank kit
-  toggleBank(e) {
+  /*
+   * Toggle the sound bank and updates the internal state and screen
+   *
+   * @param bank - the bank button DOM object
+   */
+  toggleBank(bank) {
     if (this.state.pwrStatus) {
-      switch (e.target.id) {
+      switch (bank.target.id) {
         case "bank1":
           this.setState((state) => {
             return {
@@ -177,7 +188,7 @@ class App extends React.Component {
                 },
               },
               statusMsg: state.banks.BANK1.name,
-              activeBank: state.banks.BANK1.source,
+              activeBank: state.banks.BANK1,
             };
           });
           break;
@@ -203,7 +214,7 @@ class App extends React.Component {
                 },
               },
               statusMsg: state.banks.BANK2.name,
-              activeBank: state.banks.BANK2.source,
+              activeBank: state.banks.BANK2,
             };
           });
           break;
@@ -229,22 +240,40 @@ class App extends React.Component {
                 },
               },
               statusMsg: state.banks.BANK3.name,
-              activeBank: state.banks.BANK3.source,
+              activeBank: state.banks.BANK3,
             };
           });
+          break;
+
+        default:
+          this.setState(MACHINE_STATE.DEFAULT);
           break;
       }
     }
   }
 
-  // Toggle audio files, plays initially, pause and replay from start on subsequent button events
+  /*
+   * Toggle audio playback and resets the audio for button events
+   *
+   * @param audio - the audio DOM object
+   */
   toggleAudio(audio) {
     try {
-      //this.toggleVolume(audio, this.state.vol);
+      let promise;
 
-      audio.currentTime = 0;
-      audio.volume = this.state.vol / 100;
-      let promise = audio.play();
+      if (this.state.activeBank.name === this.state.banks.BANK1.name) {
+        audio.currentTime = 0;
+        audio.volume = this.state.vol / 100;
+        promise = audio.play();
+      } else {
+        if (audio.currentTime === 0) {
+          audio.volume = this.state.vol / 100;
+          promise = audio.play();
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      }
 
       if (promise !== undefined) {
         console.log(promise);
@@ -258,26 +287,20 @@ class App extends React.Component {
 
   toggleBass(dom_id, bass) {}
 
-  toggleVolume(dom_id, vol) {
-    console.log("audio node", dom_id, vol);
-    let audioContext = new AudioContext();
-    let source = audioContext.createMediaElementSource(dom_id);
-
-    // create gain node
-    let gainNode = audioContext.createGain();
-
-    // connect audio dom to gain node
-    source.connect(gainNode);
-
-    // set volume
-    gainNode.gain.value = vol / 100;
-
-    // connect
-    gainNode.connect(audioContext);
-
-    source.play();
+  /*
+   * Toggle volumen (not dynamically unforunately)
+   *
+   * @param volInput - the DOM object of the volume input
+   */
+  toggleVolume(volInput) {
+    this.setState({ vol: volInput.target.value });
   }
 
+  /*
+   * Audio event handler that plays the audio and updates the audio filename to the screen
+   *
+   * @param event - the event (click or keydown)
+   */
   playAudio(event) {
     try {
       if (this.state.pwrStatus) {
@@ -433,7 +456,7 @@ class App extends React.Component {
                             <audio
                               id="Q"
                               class="clip"
-                              src={this.state.activeBank[0]}
+                              src={this.state.activeBank.source[0]}
                               crossOrigin="anonymous"
                             ></audio>
                             Q
@@ -452,7 +475,7 @@ class App extends React.Component {
                             <audio
                               id="W"
                               class="clip"
-                              src={this.state.activeBank[1]}
+                              src={this.state.activeBank.source[1]}
                               crossOrigin="anonymous"
                             ></audio>
                             W
@@ -471,7 +494,7 @@ class App extends React.Component {
                             <audio
                               id="E"
                               class="clip"
-                              src={this.state.activeBank[2]}
+                              src={this.state.activeBank.source[2]}
                               crossOrigin="anonymous"
                             ></audio>
                             E
@@ -492,7 +515,7 @@ class App extends React.Component {
                             <audio
                               id="A"
                               class="clip"
-                              src={this.state.activeBank[3]}
+                              src={this.state.activeBank.source[3]}
                               crossOrigin="anonymous"
                             ></audio>
                             A
@@ -511,7 +534,7 @@ class App extends React.Component {
                             <audio
                               id="S"
                               class="clip"
-                              src={this.state.activeBank[4]}
+                              src={this.state.activeBank.source[4]}
                               crossOrigin="anonymous"
                             ></audio>
                             S
@@ -530,7 +553,7 @@ class App extends React.Component {
                             <audio
                               id="D"
                               class="clip"
-                              src={this.state.activeBank[5]}
+                              src={this.state.activeBank.source[5]}
                               crossOrigin="anonymous"
                             ></audio>
                             D
@@ -552,7 +575,7 @@ class App extends React.Component {
                             <audio
                               id="Z"
                               class="clip"
-                              src={this.state.activeBank[6]}
+                              src={this.state.activeBank.source[6]}
                               crossOrigin="anonymous"
                             ></audio>
                             Z
@@ -572,7 +595,7 @@ class App extends React.Component {
                             <audio
                               id="X"
                               class="clip"
-                              src={this.state.activeBank[7]}
+                              src={this.state.activeBank.source[7]}
                               crossOrigin="anonymous"
                             ></audio>
                             X
@@ -591,7 +614,7 @@ class App extends React.Component {
                             <audio
                               id="C"
                               class="clip"
-                              src={this.state.activeBank[8]}
+                              src={this.state.activeBank.source[8]}
                               crossOrigin="anonymous"
                             ></audio>
                             C
@@ -609,10 +632,13 @@ class App extends React.Component {
                           <div class="text-center">{this.state.vol}</div>
                           <div class="text-center">
                             <input
+                              id="volume"
                               type="range"
                               min="0"
                               max="100"
                               orient="vertical"
+                              onInput={this.toggleVolume}
+                              onChange={this.toggleVolume}
                             />
                           </div>
                           <div class="text-center">VOL</div>
@@ -622,6 +648,7 @@ class App extends React.Component {
                           <div class="text-center">{this.state.treb}</div>
                           <div class="text-center">
                             <input
+                              id="treble"
                               type="range"
                               min="0"
                               max="100"
@@ -635,6 +662,7 @@ class App extends React.Component {
                           <div class="text-center">{this.state.bass}</div>
                           <div class="text-center">
                             <input
+                              id="bass"
                               type="range"
                               min="0"
                               max="100"
